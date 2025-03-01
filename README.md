@@ -9,8 +9,8 @@ HELP aims to provide a lightweight solution to managing a ticket system. By impl
 ## Authors
 
 [Umer Ayub](https://github.com/uayub02)\
-[Drew Lebo](https://github.com/temporalcrow)\
 [Lucas Granjeon](https://github.com/JV-Works)
+[Drew Lebo](https://github.com/temporalcrow)\
 
 ## Features
 
