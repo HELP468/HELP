@@ -1,0 +1,29 @@
+services:
+  server: # container hosting REST API and frontend using NodeJS, and Vue.JS
+    image: server:latest
+    ports:
+      - "3000:3000" # Frontend
+      - "3033:3033" # REST API
+    volumes:
+      - ./app:/apps
+    depends_on:
+      - db
+      - mq
+  db: # Backend MongoDB container
+    image: db:latest
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=helpdesk
+    ports:
+      - "27017:27017" # Database Service
+    volumes:
+      - ./data:/data/db
+  mq:
+    image: mq:latest
+    ports:
+      - "5672:5672" # RabbitMQ Service
+      - "15672:15672" # RabbitMQ Management plugin
+
+networks:
+  default:
+    driver: bridge
