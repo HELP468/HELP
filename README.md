@@ -2,15 +2,15 @@
 
 # Hypervisor Enhanced Logistics Program (HELP) [![GPLv3 License](https://img.shields.io/badge/License-GPL%20v3-yellow.svg)](https://opensource.org/license/gpl-3-0)
 
-HELP aims to provide a lightweight solution to managing a ticket system. By implementing a secure login system for admins and users, we are able to use WebSocket instances to connect the two clients in chats for hands on tickets. This live chat is managed by RabbitMQ on its own Docker Container, Node.js
+HELP aims to provide a lightweight solution to managing a ticket system. By implementing a secure login system for admins and users, we are able to use WebSocket instances to connect the two clients in chats for hands on tickets. This live chat is managed by RabbitMQ on its own Docker Container, the Node.js servers and MongoDB also run on their own dedicated containers.
 
 [Deliverables](Deliverables/)
 
 ## Authors
 
 [Umer Ayub](https://github.com/uayub02)\
-[Lucas Granjeon](https://github.com/JV-Works)
-[Drew Lebo](https://github.com/temporalcrow)\
+[Lucas Granjeon](https://github.com/JV-Works)\
+[Drew Lebo](https://github.com/temporalcrow)
 
 ## Features
 
