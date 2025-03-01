@@ -48,6 +48,12 @@ TBD
 .\build.bat
 ```
 
+- Lastly, run the following to join the containers
+
+```console
+docker compose up -d
+```
+
 ## API Reference
 
 #### Get example
