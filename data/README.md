@@ -1,0 +1,1 @@
+This is a template directory it will be in `.gitignore`. This directory will be mounted to the `db` container.

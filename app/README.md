@@ -1,1 +1,1 @@
-This is a template directory it will be in `.gitignore`. This directory will be mounted to the `server` container.
+This directory will be mounted to the `server` container.
