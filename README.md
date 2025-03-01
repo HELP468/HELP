@@ -38,13 +38,13 @@ TBD
 
 - If you are on Mac/Linux, run the following to automate the build process
 
-```bash
+```console
 ./build.sh
 ```
 
 - If you are on Windows, run the following
 
-```batch
+```console
 .\build.bat
 ```
 
