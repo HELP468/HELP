@@ -1,4 +1,7 @@
-# Logs
+# Volume directories post-commit
+data/
+
+# Logs  <- Template starts here
 logs
 *.log
 npm-debug.log*
