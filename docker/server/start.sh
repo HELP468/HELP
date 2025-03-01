@@ -1,2 +1,3 @@
 #!/bin/bash
-ping -c 2 localhost
+npm i -y
+npm run start
