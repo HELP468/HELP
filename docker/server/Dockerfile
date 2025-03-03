@@ -1,6 +1,6 @@
 FROM node:23.9.0
 
-COPY start.sh /start.sh
+COPY start-server.sh /
 
 RUN apt update && \
     apt upgrade -y && \
@@ -8,4 +8,4 @@ RUN apt update && \
 
 EXPOSE 3000 3033
 
-CMD ["/bin/bash", "/start.sh"]
+CMD ["/bin/bash", "/start-server.sh"]
