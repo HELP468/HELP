@@ -1,15 +1,23 @@
 // This is the REST Server, our backend. When in dev, move critical data to Dotenv.
-const http = require('node:http');
+const express = require('express'),
+app = express(),
+router = express.Router();
 
-const hostname = '127.0.0.1';
+const path = __dirname + '/views/';
 const port = 3033;
 
-const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.end('Hello, World!\n');
+router.use(function (req, res, next) {
+  console.log('/' + req.method);
+  next();
 });
 
-server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
-}); 
+router.get('/', function(req, res){
+  res.sendFile(path+'index.html');
+});
+
+app.use(express.static(path));
+app.use('/', router);
+
+app.listen(port, function(){
+  console.log(`Example app listening on port ${port}`);
+})
