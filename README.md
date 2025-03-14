@@ -56,12 +56,49 @@ docker compose up -d
 
 ## API Reference
 
-#### Get example
+#### Create User
 
 ```http
-  GET /api/example
+  POST /api/users
 ```
 
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `api_key` | `string` | **Required**. Your API key |
+| Parameter       | Type     | Description                                                                  |
+| :-------------- | :------- | :--------------------------------------------------------------------------- |
+| `username`      | `string` | **Required**. The username of the user.                                      |
+| `email`         | `string` | **Required**. the email of the user.                                         |
+| `password_hash` | `string` | **Required**. the hashed password of the user.                               |
+| `role`          | `string` | **Optional**. The role of the user. Default is "user". Can be set to "admin" |
+
+#### Get User by ID
+
+```http
+  GET /api/users/:id
+```
+
+| Parameter | Type     | Description                                   |
+| :-------- | :------- | :-------------------------------------------- |
+| `id`      | `string` | **Required**. The ID of the user to retrieve. |
+
+#### Update User Info
+
+```http
+  PUT /api/users/:id
+```
+
+| Parameter       | Type     | Description                                                                  |
+| :-------------- | :------- | :--------------------------------------------------------------------------- |
+| `id`            | `string` | **Required**. the ID of the user to update.                                  |
+| `username`      | `string` | **Optional**. The username of the user.                                      |
+| `email`         | `string` | **Optional**. the email of the user.                                         |
+| `password_hash` | `string` | **Optional**. the hashed password of the user.                               |
+| `role`          | `string` | **Optional**. The role of the user. Default is "user". Can be set to "admin" |
+
+#### Delete User
+
+```http
+  DELETE /api/users/:id
+```
+
+| Parameter | Type     | Description                                     |
+| :-------- | :------- | :---------------------------------------------- |
+| `id`      | `string` | **Required**. The ID of the user to be deleted. |
