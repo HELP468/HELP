@@ -1,12 +1,6 @@
-FROM mongo:8.0.5
-
-COPY start-db.sh /
-COPY mongod.conf /etc/mongod.conf
+FROM mongo
 
 RUN apt update && \
-    apt upgrade -y && \
-    apt install -qq -y iputils-ping
+    apt upgrade -y -qq
 
-EXPOSE 27017 
-
-CMD ["/bin/bash", "/start-db.sh"]
+EXPOSE 27017

@@ -1,4 +1,4 @@
-FROM rabbitmq:4.0.7
+FROM rabbitmq
 
 RUN apt update && \
     apt upgrade -y && \ 

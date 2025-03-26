@@ -1,4 +1,4 @@
-FROM node:23.9.0
+FROM node
 
 RUN apt update && \
     apt upgrade -y && \
