@@ -4,7 +4,7 @@
 
 HELP aims to provide a lightweight solution to managing a ticket system. By implementing a secure login system for admins and users, we are able to use WebSocket instances to connect the two clients in chats for hands on tickets. This live chat is managed by RabbitMQ on its own Docker Container, the Node.js servers and MongoDB also run on their own dedicated containers.
 
-[Deliverables](Deliverables/)
+[Class Deliverables](deliverables/)
 
 ## Authors
 
