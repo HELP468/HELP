@@ -14,9 +14,6 @@ services:
   db: # Backend MongoDB container
     build:
         context: ./docker/db
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=helpdesk
     ports:
       - "27017:27017" # Database Service
     volumes:

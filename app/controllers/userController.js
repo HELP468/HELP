@@ -1,12 +1,29 @@
-const User = require('../models/User');
+const User = require('../models/User'),
+    bcrypt = require('bcryptjs'),
+    dotenv = require('dotenv');
+
+dotenv.config();
+
+const hashPassword = async (password) => {
+    if (!password) throw new Error("Password is required");
+    return await bcrypt.hash(password, process.env.SALTROUNDS);
+}
+
+async function verifyPassword(password, hashedPassword){
+    const match = await bcrypt.compare(password, hashedPassword);
+    console.log(match ? 'Password is correct!' : 'Password is incorrect');
+}
 
 // Create a new user
 exports.createUser = async(req, res) => {
     try{
+        const hashedPassword = await hashPassword(req.body.password);
+        console.log("Hashed password:", hashedPassword);
+
         const newUser = new User({
             username: req.body.username,
             email: req.body.email,
-            password_hash: req.body.password_hash,
+            password_hash: hashedPassword,
             role: req.body.role,
             status: req.body.status,
         });
