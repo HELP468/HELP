@@ -6,7 +6,8 @@ dotenv.config();
 
 const hashPassword = async (password) => {
     if (!password) throw new Error("Password is required");
-    return await bcrypt.hash(password, process.env.SALTROUNDS);
+    const salt = parseInt(process.env.SALTROUNDS, 10)
+    return await bcrypt.hash(password, salt);
 }
 
 async function verifyPassword(password, hashedPassword){

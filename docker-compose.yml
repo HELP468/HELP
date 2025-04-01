@@ -2,7 +2,6 @@ services:
   server: # container hosting REST API and frontend using NodeJS, and Vue.JS
     build: 
         context: ./docker/server
-        
     ports:
       - "3000:3000" # Frontend
       - "3033:3033" # REST API
@@ -11,6 +10,7 @@ services:
     depends_on:
       - db
       - mq
+    restart: on-failure # Restarts if the server crashes
   db: # Backend MongoDB container
     build:
         context: ./docker/db
@@ -18,13 +18,14 @@ services:
       - "27017:27017" # Database Service
     volumes:
       - /data:/data/db
+    restart: unless-stopped
   mq:
     build:
         context: ./docker/mq
     ports:
       - "5672:5672" # RabbitMQ Service
       - "15672:15672" # RabbitMQ Management plugin
-
+    restart: unless-stopped
 networks:
   default:
     driver: bridge
