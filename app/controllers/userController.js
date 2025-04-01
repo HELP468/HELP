@@ -59,9 +59,15 @@ exports.updateUser = async(req, res) => {
 
 // Delete user by ID
 exports.deleteUser = async(req, res) => {
+    console.log("DELETE request received");
+    console.log("Request method:", req.method);
+    console.log("Request body:", req.body);
+    console.log("Request params:", req.params);
+
     try{
         const user = await User.findByIdAndDelete(req.params.id);
         if(!user) return res.status(404).json({error: 'User not found'});
+
         res.status(200).json({message: 'User deleted successfully'});
     }catch (err){
         res.status(500).json({error: 'Failed to delete user'})

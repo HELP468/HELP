@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>H.E.L.P. Desk</title>
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js" defer></script>
+    <script>
+        function enableEditing(row) {
+            let inputs = row.querySelectorAll("input, select");
+            inputs.forEach(input => input.removeAttribute("readonly"));
+
+            row.querySelector(".edit-btn").style.display = "none";
+            row.querySelector(".save-btn").style.display = "inline";
+        }
+
+        function saveUser(row, userId) {
+            let formData = new FormData();
+            let inputs = row.querySelectorAll("input, select");
+
+            inputs.forEach(input => formData.append(input.name, input.value));
+
+            fetch(`/api/users/${userId}?_method=PUT`, {
+                method: "POST", // method-override will change it to PUT
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                inputs.forEach(input => input.setAttribute("readonly", true));
+                row.querySelector(".edit-btn").style.display = "inline";
+                row.querySelector(".save-btn").style.display = "none";
+            })
+            .catch(error => alert("Error updating user: " + error));
+        }
+    </script>
+</head>
+<body>
+    <h1>Error!</h1>
+    <p>If you are seeing this page, then that means the Vue front-end is not running or not routed properly.</p>
+    <br>
+    
+    <h2>Create User</h2>
+    <form action="/api/users" method="post">
+        <label for="username">Username:</label><br>
+        <input type="text" name="username"><br>
+        <label for="password">Password:</label><br>
+        <input type="password" name="password"><br>
+        <label for="email">Email:</label><br>
+        <input type="email" name="email"><br>
+        <input type="submit" value="Submit">
+    </form>
+    
+    <h2>Users Table</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">_id</th>
+                <th scope="col">Username</th>
+                <th scope="col">passwordHash</th>
+                <th scope="col">Email</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% users.forEach(user => { %>
+                <tr>
+                    <td><%= user._id %></td>
+                    <td><%= user.username %></td>
+                    <td><%= user.password_hash%></td>
+                    <td><%= user.email %></td>
+                    <td>
+                        <a href="/edit-user/<%= user._id %>" class="btn btn-warning">Edit</a>
+                        <form action="/api/users/<%= user._id %>?_method=DELETE" method="POST">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</body>
+</html>
