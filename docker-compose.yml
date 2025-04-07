@@ -1,16 +1,33 @@
 services:
-  server: # container hosting REST API and frontend using NodeJS, and Vue.JS
+  frontend:
+    build:
+      context: ./docker/vue
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/apps
+    depends_on:
+      - backend
+    restart: always
+  backend: # container hosting REST API and frontend using NodeJS, and Vue.JS
     build: 
         context: ./docker/server
+        args:
+          MONGODB: ${MONGODB}
+          RESTPORT: ${RESTPORT}
+          SALTROUND: ${SALTROUND}
+    environment:
+      - MONGODB=${MONGODB}
+      - RESTPORT=${RESTPORT}
+      - SALTROUND=${SALTROUND}
     ports:
-      - "3000:3000" # Frontend
-      - "3033:3033" # REST API
+      - "3033:3033"
     volumes:
-      - ./app:/apps
+      - ./backend:/apps
     depends_on:
       - db
       - mq
-    restart: on-failure # Restarts if the server crashes
+    restart: always
   db: # Backend MongoDB container
     build:
         context: ./docker/db
@@ -26,6 +43,14 @@ services:
       - "5672:5672" # RabbitMQ Service
       - "15672:15672" # RabbitMQ Management plugin
     restart: unless-stopped
+  watchtower:
+    container_name: watchtower
+    image: containrrr/watchtower
+    environment:
+      - WATCHTOWER_CLEANUP=true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval 30 frontend
 networks:
   default:
     driver: bridge

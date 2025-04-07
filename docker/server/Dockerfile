@@ -1,11 +1,12 @@
 FROM node
 
 RUN apt update && \
-    apt upgrade -y && \
-    apt install -qq -y iputils-ping
+    apt upgrade -y
 
 WORKDIR /apps
 
-EXPOSE 3000 3033
+COPY backend .
+
+EXPOSE 3033
 
 CMD ["/bin/bash", "/apps/start-server.sh"]
