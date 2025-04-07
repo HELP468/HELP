@@ -9,4 +9,4 @@ COPY backend .
 
 EXPOSE 3033
 
-CMD ["/bin/bash", "/apps/start-server.sh"]
+CMD ["/bin/bash", "start-server.sh"]

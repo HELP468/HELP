@@ -1,7 +1,6 @@
 // This is the Vue server, our frontend. When in dev, move critical data to Dotenv.
 const http = require('node:http');
 
-const hostname = '127.0.0.1';
 const port = 3000;
 
 const server = http.createServer((req, res) => {
@@ -10,6 +9,6 @@ const server = http.createServer((req, res) => {
   res.end('Hello, World!\n');
 });
 
-server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
+server.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}/`);
 }); 

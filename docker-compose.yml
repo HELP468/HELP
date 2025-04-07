@@ -1,17 +1,17 @@
 services:
   frontend:
     build:
-      context: ./docker/vue
+      context: .
+      dockerfile: docker/vue/Dockerfile
     ports:
       - "3000:3000"
-    volumes:
-      - ./frontend:/apps
     depends_on:
       - backend
     restart: unless-stopped
   backend: # container hosting REST API and frontend using NodeJS, and Vue.JS
     build: 
-        context: ./docker/server
+        context: .
+        dockerfile: docker/server/Dockerfile
         args:
           MONGODB: ${MONGODB}
           RESTPORT: ${RESTPORT}
@@ -22,8 +22,6 @@ services:
       - SALTROUND=${SALTROUND}
     ports:
       - "3033:3033"
-    volumes:
-      - ./backend:/apps
     depends_on:
       - db
       - mq

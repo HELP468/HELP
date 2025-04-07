@@ -9,4 +9,4 @@ COPY frontend .
 
 EXPOSE 3000
 
-CMD ["node", "client.js"]
+CMD ["/bin/bash", "start-server.sh"]
