@@ -1,12 +1,22 @@
-FROM node
+#Step 1: build the static Vue frontend
+FROM node AS build
 
-RUN apt update && \
-    apt upgrade -y
+WORKDIR /app
 
-WORKDIR /apps
+#Copy view source files
+COPY frontend/package*.json ./
+RUN npm install
 
 COPY frontend .
+RUN npm run build
 
-EXPOSE 3000
+# Step 2: Serve the static webpage with Nginx
+FROM nginx:stable-alpine
 
-CMD ["/bin/bash", "start-server.sh"]
+COPY --from=build /app/dist /usr/share/nginx/html
+
+COPY frontend/nginx.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
