@@ -26,7 +26,7 @@ jobs:
       - name: build and push backend
         uses: docker/build-push-action@v3
         with:
-          context: ./docker
+          context: ./docker/server
           push: true
           tags: temporalcrow/backend_server:latest
           build-args: |
@@ -38,6 +38,6 @@ jobs:
         id: build-push-vue
         uses: docker/build-push-action@v3
         with:
-          context: ./docker
+          context: ./docker/vue
           push: true
           tags: temporalcrow/vue_server:latest
