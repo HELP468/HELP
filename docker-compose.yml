@@ -29,8 +29,7 @@ services:
     restart: unless-stopped
  
   db: # Backend MongoDB container
-    build:
-        context: ./docker/db
+    image: mongo
     ports:
       - "27017:27017" # Database Service
     volumes:
@@ -38,8 +37,7 @@ services:
     restart: unless-stopped
  
   mq:
-    build:
-        context: ./docker/mq
+    image: rabbitmq
     ports:
       - "5672:5672" # RabbitMQ Service
       - "15672:15672" # RabbitMQ Management plugin
