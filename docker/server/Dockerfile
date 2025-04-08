@@ -1,8 +1,5 @@
 FROM node
 
-RUN apt update && \
-    apt upgrade -y
-
 WORKDIR /apps
 
 COPY backend .
