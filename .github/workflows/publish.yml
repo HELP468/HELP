@@ -34,14 +34,6 @@ jobs:
             MONGODB=${{ secrets.MONGODB }}
             RESTPORT=${{ secrets.RESTPORT }}
             SALTROUND=${{ secrets.SALTROUND }}
-      
-      - name: build and push backend prod (clean)
-        uses: docker/build-push-action@v3
-        with:
-          context: . # Full Repo access
-          file: ./docker/server/Dockerfile.prod
-          push: true
-          tags: temporalcrow/backend_server:prod
 
       - name: build and push frontend
         id: build-push-vue
