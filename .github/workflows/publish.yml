@@ -23,17 +23,25 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: build and push backend
+      - name: build and push backend dev (baked-in environment)
         uses: docker/build-push-action@v3
         with:
           context: . # Full Repo access
-          file: ./docker/server/Dockerfile
+          file: ./docker/server/Dockerfile.dev
           push: true
           tags: temporalcrow/backend_server:latest
           build-args: |
             MONGODB=${{ secrets.MONGODB }}
             RESTPORT=${{ secrets.RESTPORT }}
             SALTROUND=${{ secrets.SALTROUND }}
+      
+      - name: build and push backend prod (clean)
+        uses: docker/build-push-action@v3
+        with:
+          context: . # Full Repo access
+          file: ./docker/server/Dockerfile.prod
+          push: true
+          tags: temporalcrow/backend_server:prod
 
       - name: build and push frontend
         id: build-push-vue
