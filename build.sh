@@ -7,4 +7,4 @@ docker image rm -f mq:latest || true
 docker image rm -f frontend:latest || true
 docker image rm -f backend:latest || true
 
-docker compose -f up -d --build
+docker compose up -d
