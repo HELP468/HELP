@@ -1,9 +1,15 @@
-FROM node
+FROM node:latest
 
-WORKDIR /apps
+WORKDIR /app
+
+COPY backend/package*.json .
+
+RUN npm i
 
 COPY backend .
 
+ENV NODE_ENV=development
+
 EXPOSE 3033
 
-CMD ["/bin/bash", "start-server.sh"]
+CMD ["npx", "nodemon", "server.js"]

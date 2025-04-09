@@ -1,0 +1,48 @@
+services:
+  frontend:
+    image: temporalcrow/frontend_server:latest
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+  
+  backend: # container hosting REST API and frontend using NodeJS, and Vue.JS
+    image: temporalcrow/backend_server:latest
+    environment:
+      - MONGODB=${MONGODB}
+      - RESTPORT=${RESTPORT}
+      - SALTROUND=${SALTROUND}
+    ports:
+      - "3033:3033"
+    depends_on:
+      - db
+      - mq
+    restart: unless-stopped
+ 
+  db: # Backend MongoDB container
+    image: mongo
+    ports:
+      - "27017:27017" # Database Service
+    volumes:
+      - /data:/data/db
+    restart: unless-stopped
+ 
+  mq:
+    image: rabbitmq
+    ports:
+      - "5672:5672" # RabbitMQ Service
+      - "15672:15672" # RabbitMQ Management plugin
+    restart: unless-stopped
+ 
+  watchtower:
+    image: containrrr/watchtower
+    environment:
+      - WATCHTOWER_CLEANUP=true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval 30
+
+networks:
+  default:
+    driver: bridge

@@ -1,5 +1,5 @@
 #Step 1: build the static Vue frontend
-FROM node AS build
+FROM node:23-slim AS build
 
 WORKDIR /app
 

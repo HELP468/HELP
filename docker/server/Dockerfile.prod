@@ -1,0 +1,15 @@
+FROM node:23-slim
+
+WORKDIR /app
+
+COPY backend/package*.json .
+
+RUN npm i --production
+
+COPY backend .
+
+ENV NODE_ENV=production
+
+EXPOSE 3033
+
+CMD ["/bin/bash", "start-server.sh"]
