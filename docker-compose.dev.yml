@@ -3,6 +3,8 @@ services:
     image: temporalcrow/frontend_server:dev
     ports:
       - "5173:5173"
+    volumes:
+      - ./frontend:/app
     depends_on:
       - backend
     restart: unless-stopped

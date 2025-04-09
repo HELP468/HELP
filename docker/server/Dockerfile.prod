@@ -12,4 +12,4 @@ ENV NODE_ENV=production
 
 EXPOSE 3033
 
-CMD ["/bin/bash", "start-server.sh"]
+CMD ["npm", "run", "start"]

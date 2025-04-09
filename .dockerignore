@@ -5,3 +5,8 @@ deliverables
 data
 *.log
 *.env
+*.bat
+*.sh
+docker-compose*.yml
+LICENSE
+README.md
