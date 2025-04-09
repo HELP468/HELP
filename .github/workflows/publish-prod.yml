@@ -37,6 +37,6 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          file: ./docker/vue/Dockerfile
+          file: ./docker/vue/Dockerfile.prod
           push: true
           tags: temporalcrow/frontend_server:latest
