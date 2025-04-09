@@ -9,7 +9,7 @@ requestLogger = require('./middleware/requestLogger'),
 apiRoutes = require('./routes/apiRoutes'),
 methodOverride = require('method-override');
 
-Dotenv.config();
+//Dotenv.config();
 const path = __dirname;
 const port = process.env.RESTPORT;
 

@@ -1,0 +1,53 @@
+name: dev-pipeline
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  deploy:
+    name: build && push image to Docker Hub
+    runs-on: self-hosted
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dev
+
+      - name: setup docker buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: docker login
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: GHCR Login
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{github.actor}}
+          password: ${{secrets.GHCR_PAT}}
+
+      - name: build and push backend dev image to GHCR
+        id: build-push-backend-dev
+        uses: docker/build-push-action@v3
+        with:
+          context: . # Full Repo access
+          file: ./docker/server/Dockerfile.dev
+          push: true
+          tags: ghcr.io/help468/help/backend_server:dev
+          build-args: |
+            MONGODB=${{ secrets.MONGODB }}
+            RESTPORT=${{ secrets.RESTPORT }}
+            SALTROUND=${{ secrets.SALTROUND }}
+
+      - name: build and push frontend
+        id: build-push-vue
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: ./docker/vue/Dockerfile.dev
+          push: true
+          tags: temporalcrow/frontend_server:dev

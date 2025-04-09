@@ -1,5 +1,3 @@
-<!-- 2/28/25 23:48: Using GNU GPLv3 License for now, could switch to something else later-->
-
 # Hypervisor Enhanced Logistics Program (HELP) [![GPLv3 License](https://img.shields.io/badge/License-GPL%20v3-yellow.svg)](https://opensource.org/license/gpl-3-0)
 
 HELP aims to provide a lightweight solution to managing a ticket system. By implementing a secure login system for admins and users, we are able to use WebSocket instances to connect the two clients in chats for hands on tickets. This live chat is managed by RabbitMQ on its own Docker Container, the Node.js servers and MongoDB also run on their own dedicated containers.
@@ -14,28 +12,47 @@ HELP aims to provide a lightweight solution to managing a ticket system. By impl
 
 ## Features
 
-<!-- 3/1/25 00:53: Do this after the app is closer to done -->
-
-TBD
+- Secure user/admin login with bcrypt hashing
+- MongoDB data storage for user and ticket data
+- WIP Admin dashboard with user management tools
+- Dockerized environment for consistent deployment 
 
 ## Tech Stack
 
-**Client:** Vue
-
-**Server:** Node, Express, WebSockets, RabbitMQ (message queue), MongoDB
-
-**Environment Configuration:** Dotenv
+**Frontned:** Vue 3, Vite
+**Backend:** Node.js, Express, WebSockets 
+**Database:** MongoDB
+**Message Queue:** RabbitMQ
+**Environment Configuration**: 
+- Secrets are not pushed to Github
+- Images are built using Github Actions and used in docker-compose
+- Utilizing `.env` and `.dockerignore`
+- Baked-in environment variables in the dev backend image stored in Github Container Registry
+- Utilize Watchtower in production for CI/CD 
 
 ## Infrastructure
 
-- [Docker](https://docs.docker.com/get-started/introduction/) containers for isolating the backend, database, and message queue.
+- [Docker](https://docs.docker.com/get-started/introduction/) containers for isolating the frontend, backend, database, and message queue.
 - [Docker Compose](https://docs.docker.com/compose/) to manage the multi-container application setup.
 - [CloudLab](https://www.cloudlab.us) for running the project.
 
 ## Deployment
 
 ### Building the Docker images
+- Create a `.env` file for secrets/config:
 
+For **production** you will need to define `MONGODB` as your MongoDB URI, `RESTPORT` as the port you use for the backend container, `SALTROUND` as the number you want bcrypt to  use. Below is an example of how that would look on the host machine.
+```env
+  MONGODB=mongodb://DatabaseContainerName:27017/DatabaseName
+  RESTPORT=3000-49151
+  SALTROUND=10-12
+```
+
+For **development** you will need to only create a classic personal access token on github with repo, `write:packages`, `read:packages`, and `delete:packages` permissions to an env variable called `GHCR_PAT`
+
+```env
+  GHCR_PAT=ghp_YourTokenHere
+```
 - If you are on Mac/Linux, run the following to automate the build process
 
 ```console
@@ -46,12 +63,6 @@ TBD
 
 ```console
 .\build.bat
-```
-
-- Lastly, run the following to join the containers
-
-```console
-docker compose up -d
 ```
 
 ## API Reference
