@@ -2,7 +2,7 @@ name: prod-pipeline
 on:
   push:
     branches:
-      - prod
+      - main
 
 jobs:
   deploy:
@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: prod
+          ref: main
 
       - name: setup docker buildx
         uses: docker/setup-buildx-action@v2
