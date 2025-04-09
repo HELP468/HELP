@@ -39,4 +39,4 @@ jobs:
           context: .
           file: ./docker/vue/Dockerfile
           push: true
-          tags: temporalcrow/vue_server:latest
+          tags: temporalcrow/frontend_server:latest
