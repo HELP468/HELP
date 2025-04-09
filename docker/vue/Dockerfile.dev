@@ -6,6 +6,8 @@ COPY frontend/package*.json .
 
 RUN npm i --legacy-peer-deps
 
+COPY frontend /app
+
 EXPOSE 5173
 
 CMD ["npm", "run", "dev"]
