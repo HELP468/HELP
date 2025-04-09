@@ -9,10 +9,6 @@ services:
   
   backend: # container hosting REST API and frontend using NodeJS, and Vue.JS
     image: ghcr.io/help468/help/backend_server:dev
-    environment:
-      - MONGODB=${MONGODB}
-      - RESTPORT=${RESTPORT}
-      - SALTROUND=${SALTROUND}
     ports:
       - "3033:3033"
     depends_on:
