@@ -1,8 +1,8 @@
 const User = require('../models/User'),
-    bcrypt = require('bcryptjs'),
-    dotenv = require('dotenv');
+    //dotenv = require('dotenv'),
+    bcrypt = require('bcryptjs');
 
-dotenv.config();
+//dotenv.config();
 
 const hashPassword = async (password) => {
     if (!password) throw new Error("Password is required");

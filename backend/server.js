@@ -1,7 +1,7 @@
 // This is the REST Server, our backend. When in dev, move critical data to Dotenv.
 const express = require('express'),
 User = require('./models/User'),
-Dotenv = require('dotenv'),
+//Dotenv = require('dotenv'),
 app = express(),
 mongo = require('mongoose'),
 router = express.Router(),
