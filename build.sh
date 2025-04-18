@@ -5,9 +5,6 @@ set -e
 # Load .env variables
 export $(grep -v '^#' .env | xargs)
 
-# Login to GHCR
-echo "$GHCR_PAT" | docker login ghcr.io -u help468 --password-stdin
-
 # Remove old images for a clean rebuild
 docker image rm -f temporalcrow/backend_server:latest || true
 docker image rm -f temporalcrow/frontend_server:latest || true
