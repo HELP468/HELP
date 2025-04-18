@@ -13,9 +13,6 @@ RUN npm run build
 # Step 2: Serve the static webpage with Nginx
 FROM nginx:stable-alpine
 
-# Install certbot for SSL generation
-RUN apk add --no-cache certbot
-
 COPY --from=build /app/dist /usr/share/nginx/html
 
 # Copy Nginx template and entrypoint script
