@@ -15,20 +15,21 @@ HELP aims to provide a lightweight solution to managing a ticket system. By impl
 - Secure user/admin login with bcrypt hashing
 - MongoDB data storage for user and ticket data
 - WIP Admin dashboard with user management tools
-- Dockerized environment for consistent deployment 
+- Dockerized environment for consistent deployment
 
 ## Tech Stack
 
-**Frontned:** Vue 3, Vite
-**Backend:** Node.js, Express, WebSockets 
+**Frontend:** Vue 3, Vite, Nginx
+**Backend:** Node.js, Express, WebSockets
 **Database:** MongoDB
 **Message Queue:** RabbitMQ
-**Environment Configuration**: 
+**Environment Configuration**:
+
 - Secrets are not pushed to Github
 - Images are built using Github Actions and used in docker-compose
 - Utilizing `.env` and `.dockerignore`
-- Baked-in environment variables in the dev backend image stored in Github Container Registry
-- Utilize Watchtower in production for CI/CD 
+- Baked-in environment variables in the developer backend image stored in Github Container Registry
+- Utilize Watchtower in production for CI/CD
 
 ## Infrastructure
 
@@ -39,9 +40,11 @@ HELP aims to provide a lightweight solution to managing a ticket system. By impl
 ## Deployment
 
 ### Building the Docker images
+
 - Create a `.env` file for secrets/config:
 
-For **production** you will need to define `MONGODB` as your MongoDB URI, `RESTPORT` as the port you use for the backend container, `SALTROUND` as the number you want bcrypt to  use. Below is an example of how that would look on the host machine.
+For **production** you will need to define `MONGODB` as your MongoDB URI, `RESTPORT` as the port you use for the backend container, `SALTROUND` as the number you want bcrypt to use. Below is an example of how that would look on the host machine.
+
 ```env
   MONGODB=mongodb://DatabaseContainerName:27017/DatabaseName
   RESTPORT=3000-49151
@@ -53,6 +56,7 @@ For **development** you will need to only create a classic personal access token
 ```env
   GHCR_PAT=ghp_YourTokenHere
 ```
+
 - If you are on Mac/Linux, run the following to automate the build process
 
 ```console

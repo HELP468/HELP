@@ -2,6 +2,16 @@ FROM node:latest
 
 WORKDIR /app
 
+# Accept build arguments (optional values for environment variables)
+ARG MONGODB
+ARG RESTPORT
+ARG SALTROUND
+
+# Use build args to set environment variables dynamically
+ENV MONGODB=${MONGODB}
+ENV RESTPORT=${RESTPORT}
+ENV SALTROUND=${SALTROUND}
+
 COPY backend/package*.json .
 
 RUN npm i
