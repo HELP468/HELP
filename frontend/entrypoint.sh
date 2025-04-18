@@ -1,21 +1,20 @@
 #!/bin/sh
 
-# Get the fully qualified domain name
-export SERVER_NAME=$(hostname -f)
-
 echo "Using SERVER_NAME=$SERVER_NAME"
 
-# Wait for the SSL certificates to be available
-echo "Waiting for certificates to be generated..."
-until [ -f "/etc/letsencrypt/live/$SERVER_NAME/fullchain.pem" ] && [ -f "/etc/letsencrypt/live/$SERVER_NAME/privkey.pem" ]; do
-  echo "Waiting for certificates..."
-  sleep 5
-done
+# Always include HTTP config
+envsubst '${SERVER_NAME}' < /etc/nginx/conf.d/nginx.http.conf > /etc/nginx/conf.d/default.conf
 
-echo "Certificates are now available."
+# Conditionally include HTTPS config if certs exist
+CERT_PATH="/etc/letsencrypt/live/${SERVER_NAME}/fullchain.pem"
+KEY_PATH="/etc/letsencrypt/live/${SERVER_NAME}/privkey.pem"
 
-# Substitute environment variable in the Nginx template
-envsubst '${SERVER_NAME}' < /etc/nginx/conf.d/nginx.template.conf > /etc/nginx/conf.d/default.conf
+if [ -f "$CERT_PATH" ] && [ -f "$KEY_PATH" ]; then
+    echo "Found SSL certs for ${SERVER_NAME}, enabling HTTPS"
+    envsubst '${SERVER_NAME}' < /etc/nginx/conf.d/nginx.https.conf >> /etc/nginx/conf.d/default.conf
+else
+    echo "No certs found yet for ${SERVER_NAME}, skipping HTTPS for now"
+fi
 
 # Start Nginx
 exec nginx -g 'daemon off;'
