@@ -16,7 +16,7 @@ echo "Checking key path: $KEY_PATH"
 
 if [ -f "$CERT_PATH" ] && [ -f "$KEY_PATH" ]; then
     echo "Found SSL certs for ${SERVER_NAME}, enabling HTTPS"
-    envsubst '${SERVER_NAME}' < /etc/nginx/conf.d/nginx.https.conf >> /etc/nginx/conf.d/default.conf
+    envsubst '${SERVER_NAME}' < /etc/nginx/conf.d/nginx.https.conf > /etc/nginx/conf.d/default.conf
 else
     echo "No certs found at:"
     ls -l "/etc/letsencrypt/live/${SERVER_NAME}" || echo "Directory not found"
