@@ -1,8 +1,10 @@
 // This is the REST Server, our backend. When in dev, move critical data to Dotenv.
 const express = require('express'),
-User = require('./models/User'),
+expressWs = require('express-ws'),
+User = require('./models/User');
 //Dotenv = require('dotenv'),
-app = express(),
+const wsInstance = expressWs(express());
+const app = wsInstance.app;
 mongo = require('mongoose'),
 router = express.Router(),
 requestLogger = require('./middleware/requestLogger'),
@@ -27,6 +29,20 @@ db.once('open', () => {
 
 // Log incoming requests
 app.use(requestLogger);
+
+//Websocket
+app.ws('/ws', function(ws, req) {
+  console.log('WebSocket connection established');
+
+  ws.on('message', function(msg) {
+    console.log('Received:', msg);
+    ws.send(`Echo: ${msg}`);
+  });
+
+  ws.on('close', () => {
+    console.log('WebSocket connection closed');
+  });
+});
 
 // Default error page to show Vue front-end isn't running
 router.get('/', async function(req, res){
@@ -61,3 +77,5 @@ app.set('view engine', 'ejs');
 app.listen(port, function(){
   console.log(`listening on port ${port}, view it at localhost:${port}`);
 });
+
+
