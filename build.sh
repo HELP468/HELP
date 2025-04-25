@@ -10,4 +10,4 @@ docker image rm -f temporalcrow/backend_server:latest || true
 docker image rm -f temporalcrow/frontend_server:latest || true
 
 # Build up the stack
-docker compose -f docker-compose.prod.yml up -d --build
+docker compose -f docker-compose.dev.yml up -d --build
