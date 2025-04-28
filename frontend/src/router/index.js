@@ -9,7 +9,8 @@ const routes = [
   { path: '/', component: Home },
   { path: '/login', component: Login },
   { path: '/signup', component: Signup },
-  { path: '/dashboard', component: UserDashboard }, // You can redirect to AdminDashboard later based on role
+  { path: '/userdashboard', component: UserDashboard },
+  { path: '/admindashboard', component: AdminDashboard }, // You can redirect to AdminDashboard later based on role
 ]
 
 const router = createRouter({
