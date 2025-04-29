@@ -1,26 +1,30 @@
 <template>
-  <div class="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-orange-100 to-orange-50 p-6">
-    <div class="text-center mb-8 animate-fade-in">
+  <div class="login-container">
+    <div class="text-center mb-8 animate-fade-in w-full">
       <h1 class="text-4xl font-bold text-orange-500">Welcome Back!</h1>
       <p class="text-gray-600 mt-2">Login to your account to continue.</p>
     </div>
-    <form class="w-full max-w-md bg-white/90 backdrop-blur-md p-8 rounded-2xl shadow-lg space-y-6 animate-slide-in-bottom">
+    <form @submit.prevent="handleSubmit" class="w-full max-w-md bg-white/90 backdrop-blur-md p-8 rounded-2xl shadow-lg space-y-6 animate-slide-in-bottom">
       <div class="space-y-2">
         <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
         <input
+          v-model="formData.email"
           type="email"
           id="email"
           placeholder="Enter your email"
-          class="w-full px-4 py-3 border border-orange-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all duration-300"
+          class="input-base"
+          required
         />
       </div>
       <div class="space-y-2">
         <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
         <input
+          v-model="formData.password"
           type="password"
           id="password"
           placeholder="Enter your password"
-          class="w-full px-4 py-3 border border-orange-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all duration-300"
+          class="input-base"
+          required
         />
       </div>
       <div class="flex items-center justify-between">
@@ -37,10 +41,7 @@
           Forgot your password?
         </a>
       </div>
-      <button
-        type="submit"
-        class="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white py-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105"
-      >
+      <button type="submit" class="button-primary w-full">
         Login to your Account
       </button>
       <div class="mt-6 pt-6 border-t border-orange-200 text-center text-gray-600">
@@ -55,184 +56,55 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'Login',
-};
+<script setup>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
+
+const router = useRouter()
+const authStore = useAuthStore()
+
+const formData = ref({
+  email: '',
+  password: ''
+})
+
+const handleSubmit = async () => {
+  try {
+    console.log('Submitting login form with data:', formData.value)
+    const response = await authStore.login(formData.value)
+    console.log('Login successful:', response)
+    router.push('/login-success')
+  } catch (error) {
+    console.error('Login failed:', error)
+    alert('Login failed: ' + (error.message || 'Unknown error'))
+  }
+}
 </script>
 
 <style scoped>
-/* Animations */
-@keyframes fade-in {
-  0% {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+@import '../assets/shared-styles.css';
 
-@keyframes slide-in-bottom {
-  0% {
-    opacity: 0;
-    transform: translateY(50px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-fade-in {
-  animation: fade-in 0.8s ease-out;
-}
-
-.animate-slide-in-bottom {
-  animation: slide-in-bottom 0.8s ease-out 0.3s;
-}
-
-/* Custom Styles */
-.bg-gradient-to-br {
+/* Login specific styles */
+.login-container {
+  width: 100vw;
+  min-height: calc(100vh - 64px);
   background-image: linear-gradient(to bottom right, #fef3c7, #fde68a);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
+  margin-top: 64px;
 }
 
-.text-orange-500 {
-  color: #f97316;
-}
-
-.text-orange-600 {
-  color: #ed8936;
-}
-
-.hover\:bg-orange-600:hover {
-  background-color: #ed8936;
-}
-
-.hover\:text-orange-600:hover{
-    color: #ed8936;
-}
-
-.text-white {
-  color: #fff;
-}
-
-.font-bold {
-  font-weight: 600;
-}
-
-.py-3 {
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
-}
-
-.rounded-lg {
-  border-radius: 0.5rem;
-}
-
-.space-y-4 > * + * {
-  margin-top: 1rem;
-}
-
-.w-full {
-  width: 100%;
-}
-
-.max-w-sm {
-  max-width: 24rem;
-}
-
-.bg-white {
-  background-color: #fff;
-}
-
-.p-6 {
-  padding: 1.5rem;
-}
-
-.rounded-2xl {
-  border-radius: 1.25rem;
-}
-
-.shadow-md {
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+/* Additional specific styles */
+.space-y-2 > * + * {
+  margin-top: 0.5rem;
 }
 
 .space-y-6 > * + * {
   margin-top: 1.5rem;
-}
-
-.px-4 {
-  padding-left: 1rem;
-  padding-right: 1rem;
-}
-
-.border {
-  border-width: 1px;
-}
-
-.border-orange-300 {
-  border-color: #fdba74;
-}
-
-.focus\:outline-none:focus {
-  outline: 2px solid transparent;
-  outline-offset: 2px;
-}
-
-.focus\:ring-2:focus {
-  --tw-ring-inset: var(--tw-empty, );
-  --tw-ring-offset-width: 0px;
-  --tw-ring-offset-color: #fff;
-  --tw-ring-color: #f97316;
-  --tw-ring-offset-shadow: 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
-  --tw-ring-shadow: 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);
-  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
-}
-
-.focus\:border-transparent:focus {
-  border-color: transparent;
-}
-
-.transition-all {
-  transition-property: all;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-}
-
-.duration-300 {
-  transition-duration: 300ms;
-}
-
-.text-sm {
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-}
-
-.font-medium {
-  font-weight: 500;
-}
-
-.text-gray-700 {
-  color: #4b5563;
-}
-
-.flex {
-  display: flex;
-}
-
-.items-center {
-  align-items: center;
-}
-
-.justify-between {
-  justify-content: space-between;
-}
-
-.ml-2 {
-  margin-left: 0.5rem;
 }
 
 .h-4 {
@@ -255,12 +127,8 @@ export default {
   color: #111827;
 }
 
-.mt-6 {
-  margin-top: 1.5rem;
-}
-
-.pt-6 {
-  padding-top: 1.5rem;
+.ml-2 {
+  margin-left: 0.5rem;
 }
 
 .border-t {
@@ -271,26 +139,20 @@ export default {
   border-color: #fecaca;
 }
 
-.text-center {
-  text-align: center;
+.text-4xl {
+  font-size: 2.25rem;
+  line-height: 2.5rem;
 }
 
-.text-gray-600 {
-  color: #6b7280;
+.font-bold {
+  font-weight: 700;
+}
+
+.font-medium {
+  font-weight: 500;
 }
 
 .font-semibold {
   font-weight: 600;
-}
-
-.hover\:underline:hover {
-  text-decoration-line: underline;
-}
-.bg-white\/90 {
-  background-color: rgba(255, 255, 255, 0.9);
-}
-
-.backdrop-blur-md {
-  backdrop-filter: blur(10px);
 }
 </style>

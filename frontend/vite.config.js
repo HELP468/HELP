@@ -19,6 +19,18 @@ export default defineConfig({
     watch: {
 	usePolling: true,
     },
-    host: '0.0.0.0'
+    host: '0.0.0.0',
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3034',
+        changeOrigin: true,
+        secure: false,
+      },
+      '/ws': {
+        target: 'ws://localhost:3034',
+        ws: true,
+        changeOrigin: true,
+      }
+    }
   }
 })

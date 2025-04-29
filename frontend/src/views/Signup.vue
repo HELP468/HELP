@@ -1,36 +1,54 @@
 <template>
   <div class="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-orange-100 to-orange-50 p-6">
-    <div class="text-center mb-8 animate-fade-in">
+    <div class="text-center mb-8 animate-fade-in w-full">
       <h1 class="text-4xl font-bold text-orange-500">Join HELP</h1>
       <p class="text-gray-600 mt-2">Create an account to get started.</p>
     </div>
-    <form class="w-full max-w-md bg-white/90 backdrop-blur-md p-8 rounded-2xl shadow-lg space-y-6 animate-slide-in-bottom">
+    <form @submit.prevent="handleSubmit" class="w-full max-w-md bg-white/90 backdrop-blur-md p-8 rounded-2xl shadow-lg space-y-6 animate-slide-in-bottom">
       <div class="space-y-2">
         <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
         <input
+          v-model="formData.username"
           type="text"
           id="name"
           placeholder="Enter your name"
           class="w-full px-4 py-3 border border-orange-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all duration-300"
+          required
         />
       </div>
       <div class="space-y-2">
         <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
         <input
+          v-model="formData.email"
           type="email"
           id="email"
           placeholder="Enter your email"
           class="w-full px-4 py-3 border border-orange-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all duration-300"
+          required
         />
       </div>
       <div class="space-y-2">
         <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
         <input
+          v-model="formData.password"
           type="password"
           id="password"
           placeholder="Enter your password"
           class="w-full px-4 py-3 border border-orange-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all duration-300"
+          required
         />
+      </div>
+      <div class="space-y-2">
+        <label for="role" class="block text-sm font-medium text-gray-700">Role</label>
+        <select
+          v-model="formData.role"
+          id="role"
+          class="w-full px-4 py-3 border border-orange-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all duration-300"
+          required
+        >
+          <option value="user">User</option>
+          <option value="admin">Admin</option>
+        </select>
       </div>
       <div class="flex items-center">
         <input
@@ -68,13 +86,48 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'Signup',
-};
+<script setup>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
+
+const router = useRouter()
+const authStore = useAuthStore()
+
+const formData = ref({
+  username: '',
+  email: '',
+  password: '',
+  role: 'user'
+})
+
+const handleSubmit = async () => {
+  try {
+    console.log('Submitting registration form with data:', formData.value)
+    const response = await authStore.register(formData.value)
+    console.log('Registration successful:', response)
+    router.push('/registration-success')
+  } catch (error) {
+    console.error('Registration failed:', error)
+    alert('Registration failed: ' + (error.message || 'Unknown error'))
+  }
+}
 </script>
 
 <style scoped>
+/* Reset styles to ensure full-screen width */
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+html {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
 /* Animations */
 @keyframes fade-in {
   0% {
@@ -109,6 +162,8 @@ export default {
 /* Custom Styles */
 .bg-gradient-to-br {
   background-image: linear-gradient(to bottom right, #fef3c7, #fde68a);
+  overflow-x: hidden; /* Prevent horizontal scrollbar */
+  width: 100vw; /* Ensure full viewport width */
 }
 
 .text-orange-500 {
@@ -124,7 +179,7 @@ export default {
 }
 
 .hover\:text-orange-600:hover {
-    color: #ed8936;
+  color: #ed8936;
 }
 
 .text-white {
@@ -150,6 +205,7 @@ export default {
 
 .w-full {
   width: 100%;
+  overflow-x: hidden; /* Added to ensure full width, prevent scroll */
 }
 
 .max-w-sm {
@@ -201,7 +257,6 @@ export default {
   --tw-ring-offset-color: #fff;
   --tw-ring-color: #f97316;
   --tw-ring-offset-shadow: 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
-  --tw-ring-shadow: 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);
   box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
 }
 
@@ -222,6 +277,7 @@ export default {
 .text-sm {
   font-size: 0.875rem;
   line-height: 1.25rem;
+  overflow-x: hidden;
 }
 
 .font-medium {
@@ -234,6 +290,10 @@ export default {
 
 .flex {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
+  width: 100vw; /* Ensure full viewport width */
 }
 
 .items-center {
@@ -286,6 +346,8 @@ export default {
 
 .text-center {
   text-align: center;
+  overflow-x: hidden;
+  width: 100vw; /* Ensure full viewport width */
 }
 
 .text-gray-600 {
@@ -306,5 +368,11 @@ export default {
 
 .backdrop-blur-md {
   backdrop-filter: blur(10px);
+}
+
+.min-h-screen {
+  min-height: 100vh;
+  overflow-x: hidden;
+  width: 100vw; /* Ensure full viewport width */
 }
 </style>

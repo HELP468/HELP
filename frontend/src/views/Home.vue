@@ -1,30 +1,30 @@
 <template>
-  <div class="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-orange-100 to-orange-50 p-8">
-    <div class="text-center space-y-8">
+  <div class="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-orange-100 to-orange-50">
+    <div class="text-center space-y-8 w-full">
       <h1 class="text-6xl font-extrabold text-orange-500 mb-4 drop-shadow-lg animate-text-focus-in">
         Welcome to HELP
       </h1>
       <p class="text-2xl text-orange-700 max-w-2xl mx-auto animate-fade-in">
         Connect with experts, find answers to your burning questions, and contribute your knowledge to our community.
       </p>
-      <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6 justify-center animate-slide-in-bottom">
+      <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6 justify-center animate-slide-in-bottom w-full">
         <router-link
           to="/questions"
-          class="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold py-4 px-8 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105"
+          class="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold py-4 px-8 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 w-full sm:w-auto"
         >
           Ask a Question
         </router-link>
         <router-link
           to="/signup"
-          class="bg-white/90 backdrop-blur-md hover:bg-white/80 text-orange-500 font-semibold border-2 border-orange-500 py-4 px-8 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105"
+          class="bg-white/90 backdrop-blur-md hover:bg-white/80 text-orange-500 font-semibold border-2 border-orange-500 py-4 px-8 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 w-full sm:w-auto"
         >
           Join Our Community
         </router-link>
       </div>
       <div class="mt-12 pt-8 border-t border-orange-200 w-full max-w-md mx-auto text-orange-600 animate-fade-in">
-        <p class="text-sm">
+        <p class="text-sm w-full">
           Already a member?
-          <router-link to="/login" class="text-orange-500 font-semibold hover:underline ml-1">
+          <router-link to="/login" class="text-orange-500 font-semibold hover:underline ml-1 w-full">
             Log in
           </router-link>
         </p>
@@ -40,6 +40,19 @@ export default {
 </script>
 
 <style scoped>
+/* Reset styles to ensure full-screen width */
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+html {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
 /* Animations */
 @keyframes fade-in {
   0% {
@@ -79,24 +92,33 @@ export default {
 }
 
 .animate-slide-in-bottom {
-  animation: slide-in-bottom 0.8s ease-out 0.3s; /* Delay the animation */
+  animation: slide-in-bottom 0.8s ease-out 0.3s;
 }
 
 .animate-text-focus-in {
   animation: text-focus-in 1s cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
 }
 
-/* Custom Styles (Optional - for demonstration) */
+/* Main container to ensure full width */
 .bg-gradient-to-br {
-  background-image: linear-gradient(to bottom right, #fef3c7, #fde68a); /* Tailwind's from-orange-100, to-orange-50 */
+  background-image: linear-gradient(to bottom right, #fef3c7, #fde68a);
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 .text-orange-500 {
-  color: #f97316; /* Tailwind's orange-500 */
+  color: #f97316;
 }
 
 .text-orange-600 {
-  color: #ed8936; /* Tailwind's orange-600 */
+  color: #ed8936;
 }
 
 .text-orange-700 {
@@ -154,30 +176,22 @@ export default {
     0 8px 10px -6px rgba(0, 0, 0, 0.05);
 }
 
-.space-x-6 {
-  margin-left: 1.5rem;
-  display: flex;
-  gap: 1.5rem;
-}
+
 
 .flex {
   display: flex;
-}
-
-.flex-col {
   flex-direction: column;
-}
-
-.items-center {
   align-items: center;
+  justify-content: center;
+  width: 100%;
+  overflow-x: hidden;
 }
 
-.justify-center {
-  justify-content: center;
-}
 
 .min-h-screen {
   min-height: 100vh;
+  width: 100vw;
+  overflow-x: hidden;
 }
 
 .p-8 {
@@ -186,6 +200,8 @@ export default {
 
 .text-center {
   text-align: center;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 .mb-4 {
@@ -287,9 +303,11 @@ export default {
   width: 100%;
 }
 
-.max-w-md {
-  max-width: 28rem;
+.sm\:w-auto {
+  width: auto;
 }
+
+
 
 .mx-auto {
   margin-left: auto;
@@ -299,13 +317,12 @@ export default {
 .text-sm {
   font-size: 0.875rem;
   line-height: 1.25rem;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 .hover\:underline:hover {
   text-decoration-line: underline;
 }
 
-.ml-1 {
-  margin-left: 0.25rem;
-}
 </style>
